@@ -4,15 +4,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.Arrays;
-
-
 /**
  * Unit Test: [test_UnitOfWork_StateUnderTest_ExpectedBehavior]
  */
 public class MessageDataTest extends TestCase {
 
-    private final MessageData messageData = new MessageData();
+    private MessageData messageData;
 
     /**
      * Create the test case
@@ -33,6 +30,7 @@ public class MessageDataTest extends TestCase {
     }
 
     public void setUp() {
+        messageData = new MessageData();
         MessageProcessor messageProcessor = new MessageProcessor(messageData);
         StubClient stubClient = new StubClient(messageData, "Stub Term");
 
@@ -48,6 +46,10 @@ public class MessageDataTest extends TestCase {
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public void tearDown() {
+        messageData = null;
     }
 
     public void test_getTopHashtags_StubClient_TagsReturned()
