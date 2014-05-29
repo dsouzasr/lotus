@@ -20,12 +20,12 @@ Build Instructions:
 Building an Executable Jar:
 > mvn package
 
-The executable jar can be found at: ./target/TweetBot-1.0-SNAPSHOT.jar
+The standalone executable jar can be found at: ./target/lotus-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 Usage:
 -------------------------
 
-Modify twitter4j.properties and specify the information for your twitter application.
+Modify twitter4j.properties and specify the information for your twitter application. The twitter4j.properties file must be in your working directory.
 
 Running as an executable jar:
 
