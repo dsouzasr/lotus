@@ -2,20 +2,25 @@ package com.gmail.lifeofreilly.lotus;
 
 import org.apache.log4j.Logger;
 
-import java.util.*;
-
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.TreeMultiset;
+
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * A message queue and the hashtags extracted.
  */
 public class MessageData {
     private final static Logger log = Logger.getLogger(MessageData.class);
-    private long messageCount;
     private final Multiset<String> hashTags = TreeMultiset.create();
     private final Queue<String> messageQueue = new LinkedList<String>();
+    private long messageCount;
 
     /**
      * Add a message to the queue to be processed.
