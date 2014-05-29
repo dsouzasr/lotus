@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
  * An Abstract client for retrieving messages that contain hashtags. Can be extended for target social network.
  */
 public abstract class AbstractClient implements Runnable {
-    private final static Logger log = Logger.getLogger(AbstractClient.class);
     private String trackedTerm;
     private String screenName;
     private Long id;

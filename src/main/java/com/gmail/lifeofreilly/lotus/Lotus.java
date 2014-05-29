@@ -2,7 +2,6 @@ package com.gmail.lifeofreilly.lotus;
 
 import org.apache.log4j.Logger;
 
-import java.util.Arrays;
 import java.util.Map;
 
 /**
