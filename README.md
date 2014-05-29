@@ -45,17 +45,18 @@ Execute all unit tests:
 > mvn test
 
 Current Unit Test Code Coverage:
-AbstractClient (100% methods, 100% lines covered)
-Lotus (0% methods, 0% lines covered)
-MessageData (100% methods, 100% lines covered)
-MessageProcessor (100% methods, 86% lines covered)
-TwitterClient (0% methods, 0% lines covered)
+* AbstractClient (100% methods, 100% lines covered)
+* Lotus (0% methods, 0% lines covered)
+* MessageData (100% methods, 100% lines covered)
+* MessageProcessor (100% methods, 86% lines covered)
+* TwitterClient (0% methods, 0% lines covered)
+
 Note: A StubClient is available for testing. You should not make multiple connections to the Twitter streaming api over a short period of time.
 
 Limitations:
 -------------------------
 
-* The application is memory bound as the hashtags are stored in memory in a TreeMultiset - http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/TreeMultiset.html
+* Hashtags are stored in memory in a TreeMultiset - http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/TreeMultiset.html
 * When connecting to the Twitter streaming api you can only have one standing connection. Do not make excessive connection attempts or your account will be rate limited or suspended.
 
 License
