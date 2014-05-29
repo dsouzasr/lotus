@@ -1,7 +1,5 @@
 package com.gmail.lifeofreilly.lotus;
 
-import org.apache.log4j.Logger;
-
 /**
  * An Abstract client for retrieving messages that contain hashtags. Can be extended for target social network.
  */
