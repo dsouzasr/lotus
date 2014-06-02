@@ -6,20 +6,21 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.TreeMultiset;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 
+
 /**
- * A message queue and the hashtags extracted.
+ * A blocking message queue and the hashtags extracted.
  */
 public class MessageData {
     private final static Logger log = Logger.getLogger(MessageData.class);
     private final Multiset<String> hashTags = TreeMultiset.create();
-    private final Queue<String> messageQueue = new LinkedList<String>();
+    private final BlockingQueue<String> messageQueue = new LinkedBlockingQueue<String>();
     private long messageCount;
 
     /**
@@ -34,7 +35,7 @@ public class MessageData {
     }
 
     /**
-     * Get the number of messages submitted for processing.
+     * Get the total number of messages submitted for processing.
      *
      * @return the number of messages.
      */
@@ -43,21 +44,21 @@ public class MessageData {
     }
 
     /**
-     * Returns true if the message queue is empty.
-     *
-     * @return is queue empty.
-     */
-    public boolean messageQueueIsEmpty() {
-        return messageQueue.isEmpty();
-    }
-
-    /**
-     * Returns and removes a message from the queue.
+     * Removes and returns the head message in the queue, waiting if necessary until an element becomes available.
      *
      * @return the message.
      */
-    public String removeMessageFromQueue() {
-        return messageQueue.remove();
+    public String takeMessageFromQueue() {
+        String message = "";
+
+        try {
+            message = messageQueue.take();
+        } catch (InterruptedException ex) {
+            log.error("InterruptedException thrown: " + ex);
+            Thread.currentThread().interrupt();
+        }
+
+        return message;
     }
 
     /**

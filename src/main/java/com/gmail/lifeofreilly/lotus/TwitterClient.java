@@ -59,10 +59,7 @@ class TwitterClient extends AbstractClient {
         @Override
         public void onStatus(final Status status) {
             log.debug("Received onStatus: " + status.getText());
-            synchronized (TwitterClient.this.getMessageData()) {
-                TwitterClient.this.getMessageData().addMessage(status.getText());
-                TwitterClient.this.getMessageData().notifyAll();
-            }
+            TwitterClient.this.getMessageData().addMessage(status.getText());
         }
 
         @Override

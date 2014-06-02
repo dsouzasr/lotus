@@ -38,10 +38,8 @@ class StubClient extends AbstractClient {
 
         for (String str : testData) {
             log.debug("Received stub onStatus: " + str);
-            synchronized (StubClient.this.getMessageData()) {
-                StubClient.this.getMessageData().addMessage(str);
-                StubClient.this.getMessageData().notifyAll();
-            }
+            StubClient.this.getMessageData().addMessage(str);
+
         }
     }
 

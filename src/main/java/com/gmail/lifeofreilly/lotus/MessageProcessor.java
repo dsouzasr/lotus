@@ -22,21 +22,8 @@ public class MessageProcessor implements Runnable {
 
     @Override
     public void run() {
-        synchronized (messageData) {
-            while (true) {
-                if (!messageData.messageQueueIsEmpty()) {
-                    log.debug("Extracting hashtags from message.");
-                    extractHashtagsFromMessage(messageData.removeMessageFromQueue());
-                } else {
-                    log.debug("The queue is empty. Waiting...");
-                    try {
-                        messageData.wait();
-                    } catch (InterruptedException ex) {
-                        log.error("InterruptedException thrown: " + ex);
-                        Thread.currentThread().interrupt();
-                    }
-                }
-            }
+        while (true) {
+            extractHashtagsFromMessage(messageData.takeMessageFromQueue());
         }
     }
 
