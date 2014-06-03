@@ -30,7 +30,7 @@ class TwitterClient extends AbstractClient {
     @Override
     public void run() {
         TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
-        twitterStream.addListener(new TwitterListener());
+        twitterStream.addListener(new TwitterListener(this.getMessageData()));
         twitterStream.filter(getFilterQuery());
         log.info("Start listening to the Twitter stream.");
     }
@@ -44,10 +44,16 @@ class TwitterClient extends AbstractClient {
 
     private class TwitterListener implements StatusListener {
 
+        private final MessageData messageData;
+
+        public TwitterListener(MessageData messageData) {
+            this.messageData = messageData;
+        }
+
         @Override
         public void onStatus(final Status status) {
             log.debug("Received onStatus: " + status.getText());
-            TwitterClient.this.getMessageData().addMessage(status.getText());
+            messageData.addMessage(status.getText());
         }
 
         @Override
@@ -74,6 +80,7 @@ class TwitterClient extends AbstractClient {
         public void onException(Exception ex) {
             log.fatal("Received exceptions. Exiting for twitter api safety. onException: ", ex);
             System.exit(1);
+            //TODO remove this
         }
     }
 
