@@ -78,9 +78,7 @@ class TwitterClient extends AbstractClient {
 
         @Override
         public void onException(Exception ex) {
-            log.fatal("Received exceptions. Exiting for twitter api safety. onException: ", ex);
-            System.exit(1);
-            //TODO remove this
+            log.error("Received Exception: ", ex);
         }
     }
 
