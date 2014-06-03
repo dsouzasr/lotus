@@ -20,7 +20,7 @@ public class Lotus {
      */
     public Lotus(final String trackedTerm) {
         messageData = new MessageData();
-        twitterClient = new TwitterClient(messageData, trackedTerm);
+        twitterClient = new TwitterClient(trackedTerm, messageData);
     }
 
     /**

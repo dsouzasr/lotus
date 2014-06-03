@@ -12,14 +12,11 @@ class StubClient extends AbstractClient {
     /**
      * Sole constructor.
      *
-     * @param messageData the data structure for the Twitter data.
      * @param trackedTerm the term to track on Twitter.
+     * @param messageData the data structure for the Twitter data.
      */
-    public StubClient(final MessageData messageData, final String trackedTerm) {
-        this.setMessageData(messageData);
-        this.setTrackedTerm(trackedTerm);
-        this.setScreenName("StubScreenName");
-        this.setId(42L);
+    public StubClient(final String trackedTerm, final MessageData messageData) {
+        super(trackedTerm, messageData);
     }
 
     @Override

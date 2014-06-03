@@ -7,10 +7,8 @@ import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
-import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
-import twitter4j.TwitterFactory;
 
 /**
  * Utilizes the Twitter Streaming API to collect messages.
@@ -22,21 +20,11 @@ class TwitterClient extends AbstractClient {
     /**
      * Constructs a Twitter Client using the supplied MessageData object and tracked term.
      *
-     * @param messageData the data structure for the Twitter data.
      * @param trackedTerm the term to track on Twitter.
+     * @param messageData the data structure for the Twitter data.
      */
-    public TwitterClient(final MessageData messageData, final String trackedTerm) {
-        this.setMessageData(messageData);
-        this.setTrackedTerm(trackedTerm);
-
-        try {
-            TwitterFactory twitter = new TwitterFactory();
-            this.setScreenName(twitter.getInstance().getScreenName());
-            this.setId(twitter.getInstance().getId());
-        } catch (TwitterException ex) {
-            log.fatal("Exiting. An Exception occurred while establishing twitter client: ", ex);
-            System.exit(1);
-        }
+    public TwitterClient(final String trackedTerm, final MessageData messageData) {
+        super(trackedTerm, messageData);
     }
 
     @Override

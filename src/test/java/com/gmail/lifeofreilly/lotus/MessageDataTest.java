@@ -32,7 +32,7 @@ public class MessageDataTest extends TestCase {
     public void setUp() {
         messageData = new MessageData();
         MessageProcessor messageProcessor = new MessageProcessor(messageData);
-        StubClient stubClient = new StubClient(messageData, "Stub Term");
+        StubClient stubClient = new StubClient("Stub Term", messageData);
 
         Thread client = new Thread(stubClient);
         client.start();

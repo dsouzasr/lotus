@@ -31,18 +31,7 @@ public class AbstractClientTest extends TestCase {
 
     public void setUp() {
         MessageData messageData = new MessageData();
-        stubClient = new StubClient(messageData, "Stub Term");
-    }
-
-    public void test_getScreenName_NoArgs_ScreenNameReturned()
-    {
-        assertEquals("StubScreenName", stubClient.getScreenName());
-    }
-
-    public void test_getId_NoArgs_IDReturned()
-    {
-        assertEquals(42L, (long) stubClient.getID());
-
+        stubClient = new StubClient("Stub Term", messageData);
     }
 
     public void test_getTrackedTerm_NoArgs_TrackedTermReturned()
@@ -52,6 +41,6 @@ public class AbstractClientTest extends TestCase {
 
     public void test_toString_NoArgs_ClientInfoReturned()
     {
-        assertEquals("Client{trackedTerm='Stub Term', screenName='StubScreenName', id=42}", stubClient.toString());
+        assertEquals("AbstractClient{trackedTerm='Stub Term', class=class com.gmail.lifeofreilly.lotus.StubClient}", stubClient.toString());
     }
 }
