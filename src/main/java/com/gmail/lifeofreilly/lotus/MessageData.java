@@ -13,7 +13,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-
 /**
  * A blocking message queue and the hashtags extracted.
  */
@@ -21,7 +20,7 @@ public class MessageData {
     private final static Logger log = Logger.getLogger(MessageData.class);
     private final Multiset<String> hashTags = TreeMultiset.create();
     private final BlockingQueue<String> messageQueue = new LinkedBlockingQueue<String>();
-    private long messageCount;
+    private volatile long messageCount;
 
     /**
      * Add a message to the queue to be processed.
@@ -68,6 +67,14 @@ public class MessageData {
      */
     public void addHashTag(final String hashtag) {
         hashTags.add(hashtag);
+    }
+
+    /**
+    * Prints the top ten hashtags to standard out
+    */
+    public void printTopTenHashTags() {
+        System.out.println("Top 10 Hashtags" + getTopHashtags(10) +
+            ". Total Tweets Processed: " + getMessageCount());
     }
 
     /**

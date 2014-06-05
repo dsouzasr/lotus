@@ -13,7 +13,7 @@ import twitter4j.TwitterStreamFactory;
 /**
  * Utilizes the Twitter Streaming API to collect messages.
  */
-class TwitterClient extends AbstractClient {
+public class TwitterClient extends AbstractClient {
 
     private final static Logger log = Logger.getLogger(TwitterClient.class);
 
@@ -43,7 +43,6 @@ class TwitterClient extends AbstractClient {
     }
 
     private class TwitterListener implements StatusListener {
-
         private final MessageData messageData;
 
         public TwitterListener(MessageData messageData) {

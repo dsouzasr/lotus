@@ -2,16 +2,23 @@ package com.gmail.lifeofreilly.lotus;
 
 import org.apache.log4j.Logger;
 
-import java.util.Map;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Identifies the top trending hashtags on Twitter for the supplied hashtag, term, or string.
  */
 public class Lotus {
-
     private final static Logger log = Logger.getLogger(Lotus.class);
     private final MessageData messageData;
     private final TwitterClient twitterClient;
+    private final ExecutorService pool = Executors.newFixedThreadPool(2);
 
     /**
      * Constructs a client using the supplied keyword.
@@ -25,57 +32,51 @@ public class Lotus {
 
     /**
      * Identifies the top trending hashtags on Twitter for the supplied hashtag, term, or string.
-     * Usage: Lotus [keyword, hashtag, or string]
+     * Usage: Lotus [keyword]
      *
      * @param args required argument. Specifies the keyword or hashtag to track on Twitter.
      */
     public static void main(String[] args) {
-        if (args.length == 1) {
+        if (args.length == 1 & validCredentialsSupplied()) {
             Lotus lotus = new Lotus(args[0]);
             lotus.startTrackingTerm();
             lotus.startProcessingMessages();
-            lotus.outputTop10Every30Seconds();
+            lotus.outputTopTenEveryThirtySeconds();
         } else {
-            System.out.println("Invalid number of arguments. Usage: Lotus [keyword, hashtag, or string]");
+            if (args.length != 1) {
+                System.out.println("Invalid number of arguments. Usage: Lotus [keyword]");
+            }
             System.exit(-1);
         }
     }
 
-    /**
-     * Get the top 10 hashtags associated with the term being tracked.
-     *
-     * @return the top 10 hashtags.
-     */
-    public Map<String, Integer> getTopTenHashtags() {
-        return messageData.getTopHashtags(10);
+    private static boolean validCredentialsSupplied() {
+        try {
+            Twitter twitter = TwitterFactory.getSingleton();
+            twitter.verifyCredentials();
+            return true;
+        } catch (TwitterException ex) {
+            System.out.println("Please supply a valid twitter4j.properties file in your working directory. " + ex.getMessage());
+            return false;
+        }
     }
 
     private void startTrackingTerm() {
-        Thread client = new Thread(twitterClient);
         log.info("Starting Twitter client: " + twitterClient.toString() + ".");
-        client.start();
+        pool.execute(twitterClient);
     }
 
     private void startProcessingMessages() {
-        MessageProcessor messageProcessor = new MessageProcessor(messageData);
-        Thread processor = new Thread(messageProcessor);
         log.info("Starting message processor.");
-        processor.start();
+        pool.execute(new MessageProcessor(messageData));
     }
 
-    private void outputTop10Every30Seconds() {
-        while (true) {
-            System.out.println("Top 10 Related Hashtags for the term: " +
-                    twitterClient.getTrackedTerm() + ", " +
-                    getTopTenHashtags() +
-                    ". Total Tweets Processed: " +
-                    messageData.getMessageCount());
-            try {
-                Thread.sleep(30000);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
+    private void outputTopTenEveryThirtySeconds() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                messageData.printTopTenHashTags();
             }
-
-        }
+        }, 0, 30000);
     }
 }

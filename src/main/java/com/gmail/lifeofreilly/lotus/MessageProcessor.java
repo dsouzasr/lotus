@@ -1,14 +1,11 @@
 package com.gmail.lifeofreilly.lotus;
 
-import org.apache.log4j.Logger;
-
 import java.util.StringTokenizer;
 
 /**
  * Extracts hashtags from messages.
  */
 public class MessageProcessor implements Runnable {
-    private final static Logger log = Logger.getLogger(MessageProcessor.class);
     private final MessageData messageData;
 
     /**
@@ -28,7 +25,7 @@ public class MessageProcessor implements Runnable {
     }
 
     private void extractHashtagsFromMessage(final String message) {
-        String deliminator = " \t\n\r\f,.:;?![]'"; //adds punctuation marks to default set
+        String deliminator = " \t\n\r\f,.:;?![]'";
         StringTokenizer tokenizer = new StringTokenizer(message, deliminator);
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
